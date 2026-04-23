@@ -1,422 +1,397 @@
-# TECLADO.CCSIT.2026_THE-FIFTH-GEAR
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Tech Fest Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Management System</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-  background: linear-gradient(180deg, rgba(10,10,20,0.85), rgba(0,0,0,0.95));
-  border-radius: 14px;
-  padding: 30px;
-  width: 100%;
-  max-width: 420px;
-  border: 1px solid rgba(255,0,0,0.4);
-  box-shadow:
-    0 0 20px rgba(255,0,0,0.4),
-    inset 0 0 25px rgba(255,0,0,0.15);
-  position: relative;
-  overflow: hidden;
+<style>
+:root {
+    --primary: #2563eb;
 }
 
-.container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.03) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-  pointer-events: none;
-  animation: scan 6s linear infinite;
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216') no-repeat center/cover;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
-@keyframes scan {
-  from { background-position: 0 0; }
-  to { background-position: 0 100%; }
+.container {
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.9);
+    padding: 2rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 950px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-
-h1 {
-  text-align: center;
-  font-size: 26px;
-  letter-spacing: 3px;
-  color: #ff2e2e;
-  text-shadow: 0 0 10px rgba(255,46,46,0.8);
+h2, h3 {
+    text-align: center;
+    color: #1e3a8a;
 }
 
-
-    p {
-      text-align: center;
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 18px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-family: inherit;
-    }
-
-    input:focus, select:focus {
-      box-shadow: 0 0 8px #ff2e2e;
-    }
-
-    button {
-  background: linear-gradient(90deg, #ff0000, #ff8800);
-  letter-spacing: 2px;
-  font-weight: bold;
-  position: relative;
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-button::after {
-  position: absolute;
-  right: 20px;
-  opacity: 0.6;
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-    button:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 15px rgba(255,75,43,0.7);
-    }
-
-    .success {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-      color: #00ff99;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 12px;
-      opacity: 0.6;
-    }
-    .checkbox-group {
-  margin-bottom: 20px;
+.checkin-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    font-weight: bold;
 }
 
-.checkbox {
-  padding: 10px 14px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 8px;
-  transition: all 0.25s ease;
-  background: rgba(0,0,0,0.4);
+.checkout-btn {
+    background: #16a34a;
+    color: white;
 }
 
-.checkbox:hover {
-  border-color: #ff2e2e;
-  box-shadow: 0 0 10px rgba(255,46,46,0.6);
-  transform: translateX(4px);
+.capture-btn {
+    width: 100%;
+    background: black;
+    color: white;
+    margin-top: 10px;
 }
 
-.checkbox input:checked + span {
-  color: #00ffcc;
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
 }
 
-
-.checkbox input {
-  accent-color: #ff2e2e;
-  width: 16px;
-  height: 16px;
-}
-/* 🔘 Floating Action Buttons */
-.fab {
-  position: fixed;
-  bottom: 20px;
-  z-index: 999;
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 0.85rem;
+    text-align: center;
 }
 
-.call-fab {
-  left: 20px;
+th {
+    background: var(--primary);
+    color: white;
 }
 
-.insta-fab {
-  right: 20px;
+.timestamp {
+    text-align: center;
+    font-size: 0.8rem;
 }
 
-.fab a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: 50px;
-  background: linear-gradient(90deg, #ff0000, #ff4b2b);
-  color: #fff;
-  text-decoration: none;
-  font-size: 13px;
-  box-shadow: 0 0 15px rgba(255,0,0,0.6);
-  transition: transform 0.2s, box-shadow 0.2s;
+.photo-box {
+    border: 2px dashed #aaa;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-.fab a:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255,75,43,0.9);
-}
-.score-box {
-  font-family: monospace;
-  background: rgba(0,0,0,0.6);
-  border-left: 4px solid #ffd700;
-  padding: 10px;
-  margin-bottom: 15px;
-  text-shadow: 0 0 5px rgba(255,215,0,0.6);
-}
-#entryPass img {
-  box-shadow: 0 0 25px rgba(0,255,200,0.8);
+video {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
-  </style>
+img.preview {
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>TECLADO</h1>
-    <p>CCSIT PALAKKAD</p>
+<div class="container">
 
-    <form id="regForm">
-      <label>Full Name</label>
-      <input type="text" required />
+<h2>Visitor Check-In</h2>
 
-      <label>Email Address</label>
-      <input type="email" required />
+<form id="visitorForm">
 
-      <label>Phone Number</label>
-      <input type="tel" required />
+<input type="text" id="visitorName" placeholder="Name" required>
+<input type="tel" id="visitorPhone" placeholder="Phone Number" required>
+<input type="email" id="visitorEmail" placeholder="Email" required>
 
-      <label>College Name</label>
-      <input type="text" required />
-<label>Select Events</label>
-
-<div class="checkbox-group">
-  <label class="checkbox">
-    <input type="checkbox" name="events" value="Hackathon">
-    <span>Hackathon</span>
-    
-  </label>
-
-  <label class="checkbox">
-    <input type="checkbox" name="events" value="Code Debugging">
-    <span>Debugging</span> 
-  </label>
-
-  <label class="checkbox">
-    <input type="checkbox" name="events" value="Tech Quiz">
-    <span>Tech Quiz</span>
-  </label>
-
-  <label class="checkbox">
-    <input type="checkbox" name="events" value="Gaming">
-    <span>Gaming</span>
-  </label>
-</div>
-<div id="feeBox">
-  💰 TOTAL FEES: ₹100
-</div>
-
-<div id="qrBox" style="display:none; text-align:center; margin-bottom:15px;">
-  <p style="font-size:13px; opacity:0.8;">Scan to Pay</p>
-  <img id="qrImg" style="width:200px; border-radius:10px;" />
-</div>
-<label>Payment Method</label>
-<select id="paymentMode" required>
-  <option value="UPI QR">UPI QR</option>
+<select id="Dropdown" required>
+<option value="">Select Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+<option value="Transgender">Transgender</option>
+<option value="Bisexual">Bisexual</option>
+<option value="Prefer Not To Say">Prefer Not To Say</option>
 </select>
 
-<label>Upload Payment Screenshot</label>
-<input type="file" id="paymentProof" accept="image/*" />
+<select id="deptDropdown" required>
+<option value="">Select Department</option>
+<option value="IT">IT</option>
+<option value="HR">HR</option>
+<option value="Finance">Finance</option>
+<option value="Bisinusses">Bisinusses</option>
+<option value="Graphics">Graphics</option>
+<option value="Administrator">Administrator</option>
+<option value="Reciptionist">Reciptionist</option>
+<option value="Electrical">Electrical</option>
+</select>
 
+<select id="staffDropdown" disabled required></select>
 
-<button type="button" id="paidBtn" style="margin-bottom:15px;">
-  ✅ Confirm Payment & Register
+<div class="photo-box" id="photoBox">
+📷 Click to Upload Photo
+<input type="file" id="photoInput" accept="image/*" hidden>
+<div id="previewContainer"></div>
+</div>
+
+<video id="camera" autoplay></video>
+<button type="button" class="capture-btn" onclick="capturePhoto()">📸 Capture Photo</button>
+
+<button type="submit" class="checkin-btn">Check In</button>
+
+<div class="timestamp" id="time"></div>
+
+</form>
+
+<h3>Visitor Log</h3>
+
+<!-- SINGLE DATE FILTER -->
+<div style="margin-top:10px;">
+    <input type="date" id="filterDate">
+</div>
+
+<!-- DOWNLOAD BUTTON -->
+<button onclick="downloadExcel()" class="checkin-btn" style="margin-top:10px;">
+📥 Download Selected Date (CSV)
 </button>
 
-    </form>
-    <div id="entryPass" style="display:none; text-align:center; margin-top:20px;">
-      <h3>🎟 Entry Pass</h3>
-      <img id="entryQR" style="width:220px;border-radius:10px;">
-      <p style="font-size:13px;opacity:0.8;">Show this at the entry gate</p>
-    </div>
-    
-    <div class="success" id="successMsg">
-      ✅ Registration Successful!<br />
-      See you at the fest 🚀
-      <a href="https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7">
-      JOIN THE OFFICIAL WATSAPP GROUP
-      </a>
-    </div>
+<table>
+<thead>
+<tr>
+<th>Photo</th>
+<th>Name</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Dept</th>
+<th>Person</th>
+<th>Check-In</th>
+<th>Check-Out</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="visitorTable"></tbody>
+</table>
 
-    <footer>
-      © 2026 TECLADO, THE FIFTH GEAR
-    </footer>
-  </div>
-
-  <script>
-  const form = document.getElementById('regForm');
-  const success = document.getElementById('successMsg');
-  const feeBox = document.getElementById('feeBox');
-  const qrBox = document.getElementById('qrBox');
-  const qrImg = document.getElementById('qrImg');
-  const checkboxes = document.querySelectorAll('input[name="events"]');
-
-  const UPI_ID = "umasreeram333@oksbi";   // 🔴 CHANGE THIS
-  const PAYEE_NAME = "TECLADO";
-
-  function calculateFee() {
-    let fee = 100;
-    checkboxes.forEach(cb => {
-      if (cb.checked && (cb.value === "Hackathon" || cb.value === "Gaming")) {
-        fee += 50;
-      }
-    });
-    feeBox.innerHTML = `💰 Total Fee: ₹${fee}`;
-    generateQR(fee);
-    return fee;
-  }
-
-  function generateQR(amount) {
-    const name = document.querySelector('input[type="text"]').value || "Participant";
-    const upiURL = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent("TECLADO Registration - " + name)}`;
-
-    qrImg.src =
-      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-      encodeURIComponent(upiURL);
-
-    qrBox.style.display = "block";
-  }
-
-  checkboxes.forEach(cb => cb.addEventListener('change', calculateFee));
-  calculateFee();
-</script>
+</div>
 
 <script>
-  const WHATSAPP_GROUP = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
-  
-  const paidBtn = document.getElementById("paidBtn");
-  const entryPass = document.getElementById("entryPass");
-  const entryQR = document.getElementById("entryQR");
-  
-  paidBtn.addEventListener("click", async () => {
-  
-    const name = document.querySelector('input[type="text"]').value.trim();
-    const email = document.querySelector('input[type="email"]').value.trim();
-    const phone = document.querySelector('input[type="tel"]').value.trim();
-    const college = document.querySelectorAll('input[type="text"]')[1].value.trim();
-    const events = [...document.querySelectorAll('input[name="events"]:checked')].map(e => e.value);
-    const paymentMode = document.getElementById("paymentMode").value;
-    const file = document.getElementById("paymentProof").files[0];
-  
-    if (!name || !email || !phone || !college) {
-      alert("Please fill all personal details");
-      return;
-    }
-  
-    if (events.length === 0) {
-      alert("Please select at least one event");
-      return;
-    }
-  
-    if (paymentMode === "UPI QR" && !file) {
-      alert("Upload payment screenshot");
-      return;
-    }
-  
-    paidBtn.disabled = true;
-    paidBtn.innerText = "⏳ Processing...";
-  
-    const reader = new FileReader();
-  
-    reader.onload = async () => {
-      const payload = {
-        name,
-        email,
-        phone,
-        college,
-        events,
-        amount: calculateFee(),
-        paymentMode,
-        screenshot: reader.result.split(",")[1],
-        mimeType: file.type
-      };
-  
-      try {
-        const res = await fetch(
-          "https://script.google.com/macros/s/AKfycbwZD34qmlEVMxWrGxd7_jyORkO9l4M--KOqH0pOrXDPSwe2JKHhZHScK7QQmNO9NuKdUg/exec",
-          {
-            method: "POST",
-            body: JSON.stringify(payload)
-          }
-        );
-  
-        const result = await res.json();
-  
-        entryQR.src =
-          "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-          encodeURIComponent(result.qrData);
-  
-        form.style.display = "none";
-        entryPass.style.display = "block";
-        success.style.display = "block";
-  
-        const message =
-          `Hi, I have successfully registered for TECLADO ✅%0A%0A` +
-          `Name: ${name}%0A` +
-          `Events: ${events.join(", ")}`;
-  
-        setTimeout(() => {
-          window.open(`https://wa.me/?text=${message}`, "_blank");
-        }, 1200);
-  
-      } catch (err) {
-        alert("Registration failed. Try again.");
-        paidBtn.disabled = false;
-        paidBtn.innerText = "✅ Confirm Payment & Register";
-      }
-    };
-  
-    reader.readAsDataURL(file);
-  });
-  </script>
-  
 
-<!-- 📸 INSTAGRAM BUTTON (BOTTOM RIGHT) -->
-<div class="fab insta-fab">
-  <a href="https://www.instagram.com/ccsit.palakkad_official" target="_blank">
-    📸 Instagram
-  </a>
-</div>
+const visitorForm = document.getElementById("visitorForm");
+const visitorName = document.getElementById("visitorName");
+const visitorPhone = document.getElementById("visitorPhone");
+const visitorEmail = document.getElementById("visitorEmail");
+const deptDropdown = document.getElementById("deptDropdown");
+const staffDropdown = document.getElementById("staffDropdown");
+const visitorTable = document.getElementById("visitorTable");
+const timeDisplay = document.getElementById("time");
+const photoInput = document.getElementById("photoInput");
+const previewContainer = document.getElementById("previewContainer");
+const photoBox = document.getElementById("photoBox");
+const camera = document.getElementById("camera");
+
+const staffDirectory = {
+    IT: ["Rahul", "Sneha"],
+    HR: ["Nidin", "Nivediya"],
+    Finance: ["George", "Lakshmi"],
+    Bisinusses: ["Navya","Arun"],
+    Graphics: ["Anoop","Albin"],
+    Administrator: ["Priya","Aamina"],
+    Reciptionist: ["Nanditha"],
+    Electrical: ["Hashir","Alan","Vinayak","Ajin"]
+};
+
+let photoData = "";
+
+photoBox.addEventListener("click", () => photoInput.click());
+
+deptDropdown.addEventListener("change", () => {
+    const dept = deptDropdown.value;
+    staffDropdown.innerHTML = "";
+
+    if (dept) {
+        staffDropdown.disabled = false;
+
+        staffDirectory[dept].forEach(name => {
+            let opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = name;
+            staffDropdown.appendChild(opt);
+        });
+    } else {
+        staffDropdown.disabled = true;
+    }
+});
+
+setInterval(() => {
+    timeDisplay.innerText = "System Time: " + new Date().toLocaleString();
+}, 1000);
+
+photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        photoData = e.target.result;
+        previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
+    };
+    reader.readAsDataURL(file);
+});
+
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => camera.srcObject = stream)
+.catch(err => console.log("Camera error:", err));
+
+function capturePhoto() {
+    const canvas = document.createElement("canvas");
+    canvas.width = camera.videoWidth;
+    canvas.height = camera.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(camera, 0, 0);
+
+    photoData = canvas.toDataURL("image/png");
+    previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
+}
+
+visitorForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (!deptDropdown.value || !staffDropdown.value) {
+        alert("Select department and staff");
+        return;
+    }
+
+    const visitor = {
+        id: Date.now(),
+        name: visitorName.value,
+        phone: visitorPhone.value,
+        email: visitorEmail.value,
+        dept: deptDropdown.value,
+        staff: staffDropdown.value,
+        photo: photoData,
+        checkin: new Date().toISOString(),
+        checkout: null
+    };
+
+    let data = JSON.parse(localStorage.getItem("visitors")) || [];
+    data.push(visitor);
+    localStorage.setItem("visitors", JSON.stringify(data));
+
+    loadVisitors();
+
+    alert("✅ Checked In");
+
+    visitorForm.reset();
+    previewContainer.innerHTML = "";
+    photoData = "";
+    staffDropdown.innerHTML = "";
+    staffDropdown.disabled = true;
+});
+
+function checkoutVisitor(id) {
+    let data = JSON.parse(localStorage.getItem("visitors")) || [];
+
+    data.forEach(v => {
+        if (v.id === id && !v.checkout) {
+            v.checkout = new Date().toISOString();
+        }
+    });
+
+    localStorage.setItem("visitors", JSON.stringify(data));
+    loadVisitors();
+}
+
+function loadVisitors() {
+    const data = JSON.parse(localStorage.getItem("visitors")) || [];
+    visitorTable.innerHTML = "";
+
+    data.forEach(v => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${v.photo ? `<img src="${v.photo}" width="50">` : "-"}</td>
+            <td>${v.name}</td>
+            <td>${v.phone}</td>
+            <td>${v.email}</td>
+            <td>${v.dept}</td>
+            <td>${v.staff}</td>
+            <td>${new Date(v.checkin).toLocaleString()}</td>
+            <td>${v.checkout ? new Date(v.checkout).toLocaleString() : "—"}</td>
+            <td>
+                <button class="checkout-btn"
+                    onclick="checkoutVisitor(${v.id})"
+                    ${v.checkout ? "disabled" : ""}>
+                    ${v.checkout ? "Done" : "Check Out"}
+                </button>
+            </td>
+        `;
+
+        visitorTable.appendChild(row);
+    });
+}
+
+function downloadExcel() {
+    const data = JSON.parse(localStorage.getItem("visitors")) || [];
+    const selectedDate = document.getElementById("filterDate").value;
+
+    if (!selectedDate) {
+        alert("Please select a date");
+        return;
+    }
+
+    const start = new Date(selectedDate);
+    const end = new Date(selectedDate + "T23:59:59");
+
+    const filtered = data.filter(v => {
+        const checkin = new Date(v.checkin);
+        return checkin >= start && checkin <= end;
+    });
+
+    if (filtered.length === 0) {
+        alert("No records found for selected date");
+        return;
+    }
+
+    let csv = "Name,Phone,Email,Department,Person,CheckIn,CheckOut\n";
+
+    filtered.forEach(v => {
+        csv += `"${v.name}","${v.phone}","${v.email}","${v.dept}","${v.staff}","${new Date(v.checkin).toLocaleString()}","${v.checkout ? new Date(v.checkout).toLocaleString() : ""}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Visitor_Log_Selected_Date.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+loadVisitors();
+
+</script>
+
 </body>
-</html> 
+</html>
