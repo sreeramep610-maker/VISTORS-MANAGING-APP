@@ -67,6 +67,20 @@ button {
     margin-top: 10px;
 }
 
+.switch-btn {
+    width: 100%;
+    background: #f59e0b;
+    color: white;
+    margin-top: 10px;
+}
+
+.upload-btn {
+    width: 100%;
+    background: #6b7280;
+    color: white;
+    margin-top: 10px;
+}
+
 table {
     width: 100%;
     margin-top: 15px;
@@ -90,14 +104,6 @@ th {
     font-size: 0.8rem;
 }
 
-.photo-box {
-    border: 2px dashed #aaa;
-    padding: 15px;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
 video {
     width: 100%;
     border-radius: 10px;
@@ -117,6 +123,20 @@ img.preview {
 <div class="container">
 
 <h2>Visitor Check-In</h2>
+
+<!-- CAMERA -->
+<video id="camera" autoplay playsinline></video>
+
+<button type="button" class="capture-btn" onclick="capturePhoto()">📸 Capture Photo</button>
+<button type="button" class="switch-btn" onclick="switchCamera()">🔄 Switch Camera</button>
+
+<!-- FILE UPLOAD -->
+<button type="button" class="upload-btn" onclick="document.getElementById('photoInput').click()">
+📁 Upload Photo
+</button>
+<input type="file" id="photoInput" accept="image/*" hidden>
+
+<div id="previewContainer"></div>
 
 <form id="visitorForm">
 
@@ -147,15 +167,6 @@ img.preview {
 
 <select id="staffDropdown" disabled required></select>
 
-<div class="photo-box" id="photoBox">
-📷 Click to Upload Photo
-<input type="file" id="photoInput" accept="image/*" hidden>
-<div id="previewContainer"></div>
-</div>
-
-<video id="camera" autoplay></video>
-<button type="button" class="capture-btn" onclick="capturePhoto()">📸 Capture Photo</button>
-
 <button type="submit" class="checkin-btn">Check In</button>
 
 <div class="timestamp" id="time"></div>
@@ -164,12 +175,10 @@ img.preview {
 
 <h3>Visitor Log</h3>
 
-<!-- SINGLE DATE FILTER -->
 <div style="margin-top:10px;">
     <input type="date" id="filterDate">
 </div>
 
-<!-- DOWNLOAD BUTTON -->
 <button onclick="downloadExcel()" class="checkin-btn" style="margin-top:10px;">
 📥 Download Selected Date (CSV)
 </button>
@@ -195,6 +204,71 @@ img.preview {
 
 <script>
 
+let currentStream;
+let useFrontCamera = true;
+let photoData = "";
+
+const camera = document.getElementById("camera");
+const previewContainer = document.getElementById("previewContainer");
+const photoInput = document.getElementById("photoInput");
+
+// CAMERA START
+async function startCamera() {
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+    }
+
+    const constraints = {
+        video: {
+            facingMode: useFrontCamera ? "user" : "environment"
+        }
+    };
+
+    try {
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        camera.srcObject = currentStream;
+    } catch (err) {
+        console.log("Camera error:", err);
+    }
+}
+
+// SWITCH CAMERA
+function switchCamera() {
+    useFrontCamera = !useFrontCamera;
+    startCamera();
+}
+
+// CAPTURE PHOTO
+function capturePhoto() {
+    const canvas = document.createElement("canvas");
+    canvas.width = camera.videoWidth;
+    canvas.height = camera.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(camera, 0, 0);
+
+    photoData = canvas.toDataURL("image/png");
+    previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
+}
+
+// FILE UPLOAD
+photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        photoData = e.target.result;
+        previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
+    };
+    reader.readAsDataURL(file);
+});
+
+// INIT CAMERA
+startCamera();
+
+// ==== REST SAME ====
+
 const visitorForm = document.getElementById("visitorForm");
 const visitorName = document.getElementById("visitorName");
 const visitorPhone = document.getElementById("visitorPhone");
@@ -203,10 +277,6 @@ const deptDropdown = document.getElementById("deptDropdown");
 const staffDropdown = document.getElementById("staffDropdown");
 const visitorTable = document.getElementById("visitorTable");
 const timeDisplay = document.getElementById("time");
-const photoInput = document.getElementById("photoInput");
-const previewContainer = document.getElementById("previewContainer");
-const photoBox = document.getElementById("photoBox");
-const camera = document.getElementById("camera");
 
 const staffDirectory = {
     IT: ["Rahul", "Sneha"],
@@ -219,17 +289,12 @@ const staffDirectory = {
     Electrical: ["Hashir","Alan","Vinayak","Ajin"]
 };
 
-let photoData = "";
-
-photoBox.addEventListener("click", () => photoInput.click());
-
 deptDropdown.addEventListener("change", () => {
     const dept = deptDropdown.value;
     staffDropdown.innerHTML = "";
 
     if (dept) {
         staffDropdown.disabled = false;
-
         staffDirectory[dept].forEach(name => {
             let opt = document.createElement("option");
             opt.value = name;
@@ -245,41 +310,8 @@ setInterval(() => {
     timeDisplay.innerText = "System Time: " + new Date().toLocaleString();
 }, 1000);
 
-photoInput.addEventListener("change", () => {
-    const file = photoInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        photoData = e.target.result;
-        previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
-    };
-    reader.readAsDataURL(file);
-});
-
-navigator.mediaDevices.getUserMedia({ video: true })
-.then(stream => camera.srcObject = stream)
-.catch(err => console.log("Camera error:", err));
-
-function capturePhoto() {
-    const canvas = document.createElement("canvas");
-    canvas.width = camera.videoWidth;
-    canvas.height = camera.videoHeight;
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(camera, 0, 0);
-
-    photoData = canvas.toDataURL("image/png");
-    previewContainer.innerHTML = `<img src="${photoData}" class="preview">`;
-}
-
 visitorForm.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    if (!deptDropdown.value || !staffDropdown.value) {
-        alert("Select department and staff");
-        return;
-    }
 
     const visitor = {
         id: Date.now(),
@@ -298,25 +330,19 @@ visitorForm.addEventListener("submit", (e) => {
     localStorage.setItem("visitors", JSON.stringify(data));
 
     loadVisitors();
-
     alert("✅ Checked In");
 
     visitorForm.reset();
     previewContainer.innerHTML = "";
-    photoData = "";
-    staffDropdown.innerHTML = "";
-    staffDropdown.disabled = true;
 });
 
 function checkoutVisitor(id) {
     let data = JSON.parse(localStorage.getItem("visitors")) || [];
-
     data.forEach(v => {
         if (v.id === id && !v.checkout) {
             v.checkout = new Date().toISOString();
         }
     });
-
     localStorage.setItem("visitors", JSON.stringify(data));
     loadVisitors();
 }
@@ -366,11 +392,6 @@ function downloadExcel() {
         const checkin = new Date(v.checkin);
         return checkin >= start && checkin <= end;
     });
-
-    if (filtered.length === 0) {
-        alert("No records found for selected date");
-        return;
-    }
 
     let csv = "Name,Phone,Email,Department,Person,CheckIn,CheckOut\n";
 
